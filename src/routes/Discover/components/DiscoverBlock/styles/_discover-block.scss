@@ -70,4 +70,35 @@
       margin-bottom: 20px;
     }
   }
+
+  &__loader {
+    width: 45px;
+    height: 10px;
+    background-color: #d1d5db;
+    border-radius: 9999px;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      background-color: $primary-blue;
+      border-radius: 9999px;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      width: 50%;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-name: indeterminate-progress-bar;
+    }
+
+    @keyframes indeterminate-progress-bar {
+      from {
+        left: -50%;
+      }
+      to {
+        left: 100%;
+      }
+    }
+  }
 }
