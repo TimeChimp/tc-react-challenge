@@ -1,27 +1,43 @@
-import React, { Component } from 'react';
-import DiscoverBlock from './DiscoverBlock/components/DiscoverBlock';
-import '../styles/_discover.scss';
+import React from "react";
+import DiscoverBlock from "./DiscoverBlock/components/DiscoverBlock";
+import "../styles/_discover.scss";
+import {
+  useGetCategoriesQuery,
+  useGetFeaturedPlaylistsQuery,
+  useGetNewreleasesQuery,
+} from "../../../api/spotifyApi";
 
-export default class Discover extends Component {
-  constructor() {
-    super();
+const Discover = () => {
+  const categoriesQuery = useGetCategoriesQuery();
+  const categories = categoriesQuery.data?.categories?.items || [];
+  const newReleasesQuery = useGetNewreleasesQuery();
+  const newReleases = newReleasesQuery.data?.albums?.items || [];
+  const featuredPlaylistsQuery = useGetFeaturedPlaylistsQuery();
+  const featuredPlaylists = featuredPlaylistsQuery.data?.playlists?.items || [];
 
-    this.state = {
-      newReleases: [],
-      playlists: [],
-      categories: []
-    };
-  }
+  return (
+    <div className="discover">
+      <DiscoverBlock
+        text="RELEASED THIS WEEK"
+        id="released"
+        data={newReleases}
+        loading={newReleasesQuery.isLoading}
+      />
+      <DiscoverBlock
+        text="FEATURED PLAYLISTS"
+        id="featured"
+        data={featuredPlaylists}
+        loading={featuredPlaylistsQuery.isLoading}
+      />
+      <DiscoverBlock
+        text="BROWSE"
+        id="browse"
+        data={categories}
+        imagesKey="icons"
+        loading={categoriesQuery.isLoading}
+      />
+    </div>
+  );
+};
 
-  render() {
-    const { newReleases, playlists, categories } = this.state;
-
-    return (
-      <div className="discover">
-        <DiscoverBlock text="RELEASED THIS WEEK" id="released" data={newReleases} />
-        <DiscoverBlock text="FEATURED PLAYLISTS" id="featured" data={playlists} />
-        <DiscoverBlock text="BROWSE" id="browse" data={categories} imagesKey="icons" />
-      </div>
-    );
-  }
-}
+export default Discover;
