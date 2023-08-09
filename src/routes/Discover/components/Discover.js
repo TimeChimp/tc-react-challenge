@@ -1,16 +1,35 @@
-import React, { Component } from 'react';
-import DiscoverBlock from './DiscoverBlock/components/DiscoverBlock';
-import '../styles/_discover.scss';
+import React, { Component } from "react";
+import DiscoverBlock from "./DiscoverBlock/components/DiscoverBlock";
+import "../styles/_discover.scss";
+import {
+  fetchBrowseGenres,
+  fetchFeaturedPlaylists,
+  fetchReleasedThisWeek,
+} from "../../../helpers/api";
 
 export default class Discover extends Component {
   constructor() {
     super();
-
     this.state = {
       newReleases: [],
       playlists: [],
-      categories: []
+      categories: [],
     };
+  }
+  async fetchInitialData() {
+    try {
+      const [newReleases, categories, playlists] = await Promise.all([
+        fetchReleasedThisWeek(),
+        fetchBrowseGenres(),
+        fetchFeaturedPlaylists(),
+      ]);
+      this.setState({ newReleases, categories, playlists });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  componentDidMount() {
+    this.fetchInitialData();
   }
 
   render() {
@@ -18,9 +37,22 @@ export default class Discover extends Component {
 
     return (
       <div className="discover">
-        <DiscoverBlock text="RELEASED THIS WEEK" id="released" data={newReleases} />
-        <DiscoverBlock text="FEATURED PLAYLISTS" id="featured" data={playlists} />
-        <DiscoverBlock text="BROWSE" id="browse" data={categories} imagesKey="icons" />
+        <DiscoverBlock
+          text="RELEASED THIS WEEK"
+          id="released"
+          data={newReleases}
+        />
+        <DiscoverBlock
+          text="FEATURED PLAYLISTS"
+          id="featured"
+          data={playlists}
+        />
+        <DiscoverBlock
+          text="BROWSE"
+          id="browse"
+          data={categories}
+          imagesKey="icons"
+        />
       </div>
     );
   }
