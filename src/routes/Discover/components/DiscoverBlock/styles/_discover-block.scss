@@ -70,4 +70,25 @@
       margin-bottom: 20px;
     }
   }
+  &__row {
+    display: flex;
+    margin-bottom: 50px;
+    width: 100%;
+    overflow-x: scroll;
+    height: 250px;
+    scroll-behavior: smooth;
+    margin-top: 20px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > * {
+      margin-right: 50px;
+    }
+
+    @media only screen and (max-height: 750px) {
+      margin-bottom: 20px;
+    }
+  }
 }

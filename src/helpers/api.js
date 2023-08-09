@@ -13,7 +13,6 @@ export async function fetchReleasedThisWeek() {
   try {
     const response = await axiosInstance.get(apiPaths.newReleases);
     const releasedThisWeekSongs = response.data.albums.items;
-    console.log("Released This Week songs:", releasedThisWeekSongs);
     return releasedThisWeekSongs;
   } catch (error) {
     console.error("Error fetching Released This Week songs:", error);
@@ -25,7 +24,6 @@ export async function fetchFeaturedPlaylists() {
   try {
     const response = await axiosInstance.get(apiPaths.featuredPlaylists);
     const featuredPlaylists = response.data.playlists.items;
-    console.log("Featured Playlists:", featuredPlaylists);
     return featuredPlaylists;
   } catch (error) {
     console.error("Error fetching Featured Playlists:", error);
@@ -37,7 +35,6 @@ export async function fetchBrowseGenres() {
   try {
     const response = await axiosInstance.get(apiPaths.browseGenres);
     const browseGenres = response.data.categories.items;
-    console.log("Browse genres:", browseGenres);
     return browseGenres;
   } catch (error) {
     console.error("Error fetching Browse genres:", error);

@@ -18,13 +18,15 @@ export default class Discover extends Component {
   }
   async fetchInitialData() {
     try {
+      this.setState({ ...this.state, isLoading: true });
       const [newReleases, categories, playlists] = await Promise.all([
         fetchReleasedThisWeek(),
         fetchBrowseGenres(),
         fetchFeaturedPlaylists(),
       ]);
-      this.setState({ newReleases, categories, playlists });
+      this.setState({ newReleases, categories, playlists, isLoading: false });
     } catch (e) {
+      this.setState({ isLoading: false });
       console.log(e);
     }
   }
@@ -33,23 +35,26 @@ export default class Discover extends Component {
   }
 
   render() {
-    const { newReleases, playlists, categories } = this.state;
+    const { newReleases, playlists, categories, isLoading } = this.state;
 
     return (
       <div className="discover">
         <DiscoverBlock
           text="RELEASED THIS WEEK"
           id="released"
+          isLoading={isLoading}
           data={newReleases}
         />
         <DiscoverBlock
           text="FEATURED PLAYLISTS"
           id="featured"
+          isLoading={isLoading}
           data={playlists}
         />
         <DiscoverBlock
           text="BROWSE"
           id="browse"
+          isLoading={isLoading}
           data={categories}
           imagesKey="icons"
         />
